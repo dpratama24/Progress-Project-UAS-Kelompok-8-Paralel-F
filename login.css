@@ -1,5 +1,5 @@
 body{
-    background: url(perumahan.jpg) no-repeat;
+    background: url(gambar/perumahan.jpg) no-repeat;
     background-position: center;
     background-size: cover;
     width: 400px;
@@ -90,7 +90,7 @@ a.sign-up:hover{
     color: fffffffd;
 }
 
-.wrapper .login{
+.wrapper .submit {
     background: #fff;
     border: none;
     outline: none;

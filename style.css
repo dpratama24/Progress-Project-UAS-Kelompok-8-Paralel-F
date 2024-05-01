@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600&display=swap');
 
 :root{
-    --main-color: #4F6F52;
+    --main-color: #000000;
     --primary-color: #F5EFE6;
     --bg-color: #E8DFCA;
-    --hover: #1A4D2E;
+    --hover: #000000;
     --black:#222;
     --white:#fff;
     --border:.1rem solid #aaa;
@@ -175,7 +175,7 @@ section{
 
 .swiper-button-next::after,
 .swiper-button-prev::after{
-    font-size: 2rem;
+    font-size: 2rem;
 }
 
 /* about us */
@@ -224,6 +224,12 @@ section{
     gap: 1.5rem;
 }
 
+.menu .box-container .box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .menu .box-container .box .image{
     height: 300px;
     overflow: hidden;
@@ -251,6 +257,7 @@ section{
     line-height: 1.8;
     color: #a6a9ab;
     padding: 1rem 0;
+    text-align: justify;
 }
 
 .menu .box-container .box .content .price{
