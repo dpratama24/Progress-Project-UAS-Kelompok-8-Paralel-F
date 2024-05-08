@@ -44,6 +44,22 @@
         <a class="nav-link" href="dashboardadmin1.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="inputdata.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Input Data</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Tambahkan Data :</h6>
+            <a class="collapse-item" href="pengeluaran.php">Pengeluaran</a>
+            <a class="collapse-item" href="register.php">Registrasi Warga</a>
+            <a class="collapse-item" href="datawarga.php">Input Data Warga</a>
+          </div>
+        </div>
+      </li>
       
       <!-- Nav Item - Tables -->
       <li class="nav-item">

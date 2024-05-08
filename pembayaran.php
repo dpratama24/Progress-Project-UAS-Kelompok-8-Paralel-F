@@ -1,8 +1,8 @@
-<?php
-   include_once ("database.php");
-   $query= "SELECT * FROM tb_pengeluaran";
-   $hasil= mysqli_query ($db, $query);
-   $rp = "Rp. ";
+<?php 
+     include_once ("database.php");
+     $query= "SELECT * FROM tb_pembayaran";
+     $hasil= mysqli_query ($db, $query);
+     $rp = "Rp. ";
 
 ?>
 
@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Ketua RW - Tables</title>
+  <title>Satpam - Input Data</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,7 +44,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <!-- <i class="fas fa-laugh-wink"></i> -->
         </div>
-        <div class="sidebar-brand-text mx-3">Ketua RW <sup></sup></div>
+        <div class="sidebar-brand-text mx-3"> Satpam <sup></sup></div>
       </a>
 
       <!-- Divider -->
@@ -52,13 +52,13 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="dashboardadmin1.php">
+        <a class="nav-link" href="dashboardadmin2.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link collapsed" href="inputdata.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
           <span>Input Data</span>
@@ -66,32 +66,16 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Tambahkan Data :</h6>
-            <a class="collapse-item" href="pengeluaran.php">Pengeluaran</a>
-            <a class="collapse-item" href="register.php">Registrasi Warga</a>
-            <a class="collapse-item" href="datawarga.php">Input Data Warga</a>
+            <a class="collapse-item active" href="pembayaran.php">Pembayaran</a>
           </div>
         </div>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tablespembayaranadmin1.php">
+        <a class="nav-link" href="tablespembayaranadmin2.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Tabel Pembayaran</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item active">
-        <a class="nav-link" href="tablespengeluaranadmin1.php">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tabel Pengeluaran</span></a>
-      </li>
-
-       <!-- Nav Item - Tables -->
-       <li class="nav-item">
-        <a class="nav-link" href="datawargaadmin1.php">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Data Warga</span></a>
       </li>
 
       <!-- Divider -->
@@ -264,7 +248,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Tono</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Yono</span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
@@ -297,53 +281,48 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tables Pengeluaran</h1>
-          <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pengeluaran warga RW 10 Taman Pondok Jati :</a></p>
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Tabel Pengeluaran</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
-                      <th>Tanggal Pengeluaran</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
-                      <th>Tanggal Pengeluaran</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                  <?php $nomor=1; 
-                  while ($data=mysqli_fetch_array ($hasil)){ 
-                    ?>
-                    <tr>
-                    <th scope="row"> <?php echo $data['id_pengeluaran']; ?></th>
-                    <td> <?php echo $rp .$data['jumlah_pengeluaran']; ?> </td>
-                    <td> <?php echo $rp .$data['saldo']; ?> </td>
-                    <td> <?php echo $data['tanggal_pengeluaran']; ?> </td>
-                    </tr>
-                    <?php $nomor++; } ?>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Input Data Pembayaran Iuran</h1>
+          <p class="mb-4">Masukkan data pembayaran iuran warga RW 10 Taman Pondok Jati :</a></p>
+
+          <!-- Form (Start) -->
+          <form method="post" action="prosespembayaran.php">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nama :</label>
+            <input type="nama" name= "nama_warga" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
           </div>
-
-        </div>
-        <!-- /.container-fluid -->
+          <div class="form-group">
+          <label for="exampleFormControlSelect1">Status Pembayaran :</label>
+          <select class="form-control" name="status_pembayaran" id="exampleFormControlSelect1">
+            <option></option>
+            <option>Lunas</option>
+            <option>Belum Lunas</option>
+          </select>
+            <small id="emailHelp" class="form-text text-muted">Pilih status pembayaran : Lunas/Belum Lunas.</small>
+          </div>
+          <form method="post" action="prosespembayaran.php">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Jumlah Pembayaran :</label>
+            <input type="jumlahpembayaran" name="jumlah_pembayaran" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Tanggal Pembayaran :</label>
+            <input type="date" name="tanggal_pembayaran"/>
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Bukti Pembayaran :</label>
+            <input type="file" name="bukti_pembayaran" class="form-control-file" id="exampleFormControlFile1">    
+            <div class="text-center pb-2">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <a href="tablespembayaranadmin1.php"></a>
+          </div>
+</form>
 
       </div>
       <!-- End of Main Content -->

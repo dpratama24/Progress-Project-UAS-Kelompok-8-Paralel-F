@@ -1,3 +1,11 @@
+<?php 
+     include_once ("database.php");
+     $query= "SELECT * FROM tb_pembayaran";
+     $hasil= mysqli_query ($db, $query);
+     $rp = "Rp. ";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Satpam - Tables</title>
+  <title>Ketua RW - Tables</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -36,7 +44,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <!-- <i class="fas fa-laugh-wink"></i> -->
         </div>
-        <div class="sidebar-brand-text mx-3"> Satpam <sup></sup></div>
+        <div class="sidebar-brand-text mx-3">Ketua RW <sup></sup></div>
       </a>
 
       <!-- Divider -->
@@ -44,20 +52,34 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="dashboardadmin2.php">
+        <a class="nav-link" href="dashboardadmin1.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
 
-      <!-- Nav Item - Tables -->
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
+        <a class="nav-link collapsed" href="inputdata.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Input Data</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Tambahkan Data :</h6>
+            <a class="collapse-item" href="pembayaran.php">Pembayaran</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item active">
         <a class="nav-link" href="tablespembayaranadmin2.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Tabel Pembayaran</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="tablespengeluaranadmin2.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Tabel Pengeluaran</span></a>
@@ -233,7 +255,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Yono</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Tono</span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
@@ -267,13 +289,13 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tabel Pengeluaran</h1>
-          <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pengeluaran warga RW 10 Taman Pondok Jati : </a></p>
+          <h1 class="h3 mb-2 text-gray-800">Tabel Pembayaran</h1>
+          <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pembayaran warga RW 10 Taman Pondok Jati :</a></p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Iuran Warga yang Masuk</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -281,38 +303,36 @@
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
-                      <th>Tanggal</th>
+                      <th>Nama</th>
+                      <th>Tanggal Pembayaran</th>
+                      <th>Status Pembayaran</th>
+                      <th>Bukti Pembayaran</th>
+                      <th>Jumlah Pembayaran</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                    <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
-                      <th>Tanggal</th>
+                      <th>No.</th>
+                      <th>Nama</th>
+                      <th>Tanggal Pembayaran</th>
+                      <th>Status Pembayaran</th>
+                      <th>Bukti Pembayaran</th>
+                      <th>Jumlah Pembayaran</th>
                     </tr>
                   </tfoot>
                   <tbody>
+                  <?php $nomor=1; 
+                  while ($data=mysqli_fetch_array ($hasil)){ 
+                    ?>
                     <tr>
-                      <td>1.</td>
-                      <td>Rp. 500.000</td>
-                      <td>Rp. 9.500.000</td>
-                      <td>01/07/2022</td>
+                    <th scope="row"> <?php echo $data['id_warga']; ?></th>
+                    <td> <?php echo $data['nama_warga']; ?> </td>
+                    <td> <?php echo $data['tanggal_pembayaran']; ?> </td>
+                    <td> <?php echo $data['status_pembayaran']; ?> </td>
+                    <td> <?php echo $data['bukti_pembayaran']; ?> </td>
+                    <td> <?php echo $rp .$data['jumlah_pembayaran']; ?> </td>
                     </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Rp. 500.000</td>
-                      <td>Rp. 9.000.000</td>
-                      <td>10/08/2022</td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Rp. 300.000</td>
-                      <td>Rp. 8.700.000</td>
-                      <td>17/12/2022</td>
-                    </tr>
+                    <?php $nomor++; } ?>
                   </tbody>
                 </table>
               </div>

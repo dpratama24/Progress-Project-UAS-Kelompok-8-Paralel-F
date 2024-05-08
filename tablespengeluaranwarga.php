@@ -1,3 +1,11 @@
+<?php
+   include_once ("database.php");
+   $query= "SELECT * FROM tb_pengeluaran";
+   $hasil= mysqli_query ($db, $query);
+   $rp = "Rp. ";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -260,13 +268,13 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tabel Pengeluaran</h1>
+          <h1 class="h3 mb-2 text-gray-800">Tables Pengeluaran</h1>
           <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pengeluaran warga RW 10 Taman Pondok Jati :</a></p>
-
+        
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Tabel Pengeluaran</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -276,36 +284,28 @@
                       <th>No.</th>
                       <th>Jumlah Pengeluaran</th>
                       <th>Saldo</th>
-                      <th>Tanggal</th>
+                      <th>Tanggal Pengeluaran</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                    <th>No.</th>
+                      <th>No.</th>
                       <th>Jumlah Pengeluaran</th>
                       <th>Saldo</th>
-                      <th>Tanggal</th>
+                      <th>Tanggal Pengeluaran</th>
                     </tr>
                   </tfoot>
                   <tbody>
+                  <?php $nomor=1; 
+                  while ($data=mysqli_fetch_array ($hasil)){ 
+                    ?>
                     <tr>
-                      <td>1.</td>
-                      <td>Rp. 500.000</td>
-                      <td>Rp. 9.500.000</td>
-                      <td>01/07/2022</td>
+                    <th scope="row"> <?php echo $data['id_pengeluaran']; ?></th>
+                    <td> <?php echo $rp .$data['jumlah_pengeluaran']; ?> </td>
+                    <td> <?php echo $rp .$data['saldo']; ?> </td>
+                    <td> <?php echo $data['tanggal_pengeluaran']; ?> </td>
                     </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Rp. 500.000</td>
-                      <td>Rp. 9.000.000</td>
-                      <td>10/08/2022</td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Rp. 300.000</td>
-                      <td>Rp. 8.700.000</td>
-                      <td>17/12/2022</td>
-                    </tr>
+                    <?php $nomor++; } ?>
                   </tbody>
                 </table>
               </div>

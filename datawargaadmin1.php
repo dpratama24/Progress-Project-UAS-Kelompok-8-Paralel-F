@@ -1,3 +1,10 @@
+<?php 
+     include_once ("database.php");
+     $query= "SELECT * FROM tb_datawarga";
+     $hasil= mysqli_query ($db, $query);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,6 +54,22 @@
         <a class="nav-link" href="dashboardadmin1.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="inputdata.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Input Data</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Tambahkan Data :</h6>
+            <a class="collapse-item" href="pengeluaran.php">Pengeluaran</a>
+            <a class="collapse-item" href="register.php">Registrasi Warga</a>
+            <a class="collapse-item" href="datawarga.php">Input Data Warga</a>
+          </div>
+        </div>
       </li>
 
       <!-- Nav Item - Tables -->
@@ -240,7 +263,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Yono</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Tono</span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
@@ -274,8 +297,8 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tabel Pembayaran</h1>
-          <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pembayaran warga RW 10 Taman Pondok Jati :</a></p>
+          <h1 class="h3 mb-2 text-gray-800">Data Warga</h1>
+          <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data warga RW 10 Taman Pondok Jati :</a></p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -306,30 +329,18 @@
                     </tr>
                   </tfoot>
                   <tbody>
+                  <?php $nomor=1; 
+                  while ($data=mysqli_fetch_array ($hasil)){ 
+                    ?>
                     <tr>
-                      <td>1.</td>
-                      <td>Karina Dinda Artanti</td>
-                      <td>Perempuan</td>
-                      <td>Mahasiswa</td>
-                      <td>123456789012</td>
-                      <td>karindawartanti@gmail.com</td>
+                    <th scope="row"> <?php echo $data['id_warga']; ?></th>
+                    <td> <?php echo $data['nama_warga']; ?> </td>
+                    <td> <?php echo $data['jenis_kelamin']; ?> </td>
+                    <td> <?php echo $data['pekerjaan']; ?> </td>
+                    <td> <?php echo $data['no_telpon']; ?> </td>
+                    <td> <?php echo $data['email']; ?> </td>
                     </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Nabilah Sahda Firjatullah</td>
-                      <td>Perempuan</td>
-                      <td>Mahasiswa</td>
-                      <td>112233445566</td>
-                      <td>nabilahsahdaf@gmail.com</td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Dika Maulana Putra Pratama</td>
-                      <td>Laki-laki</td>
-                      <td>Mahasiswa</td>
-                      <td>113324789237</td>
-                      <td>dpratama397@gmail.com</td>
-                    </tr>
+                    <?php $nomor++; } ?>
                   </tbody>
                 </table>
               </div>

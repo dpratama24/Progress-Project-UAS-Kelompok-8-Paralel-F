@@ -1,3 +1,11 @@
+<?php 
+     include_once ("database.php");
+     $query= "SELECT * FROM tb_pembayaran";
+     $hasil= mysqli_query ($db, $query);
+     $rp = "Rp. ";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,18 +57,25 @@
           <span>Dashboard</span></a>
       </li>
 
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="inputdata.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Input Data</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Tambahkan Data :</h6>
+            <a class="collapse-item" href="pembayaran.php">Pembayaran</a>
+          </div>
+        </div>
+      </li>
+
       <!-- Nav Item - Tables -->
       <li class="nav-item active">
         <a class="nav-link" href="tablespembayaranadmin2.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Tabel Pembayaran</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tablespengeluaranadmin2.php">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tabel Pengeluaran</span></a>
       </li>
 
       <!-- Divider -->
@@ -270,10 +285,10 @@
           <h1 class="h3 mb-2 text-gray-800">Tabel Pembayaran</h1>
           <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pembayaran warga RW 10 Taman Pondok Jati :</a></p>
 
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
+           <!-- DataTales Example -->
+           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Iuran Warga yang Masuk</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -299,30 +314,18 @@
                     </tr>
                   </tfoot>
                   <tbody>
+                  <?php $nomor=1; 
+                  while ($data=mysqli_fetch_array ($hasil)){ 
+                    ?>
                     <tr>
-                      <td>1.</td>
-                      <td>Karina Dinda Artanti</td>
-                      <td>05/05/2022</td>
-                      <td>Lunas</td>
-                      <td>Link Drive</td>
-                      <td>Rp. 100.000</td>
+                    <th scope="row"> <?php echo $data['id_warga']; ?></th>
+                    <td> <?php echo $data['nama_warga']; ?> </td>
+                    <td> <?php echo $data['tanggal_pembayaran']; ?> </td>
+                    <td> <?php echo $data['status_pembayaran']; ?> </td>
+                    <td> <?php echo $data['bukti_pembayaran']; ?> </td>
+                    <td> <?php echo $rp .$data['jumlah_pembayaran']; ?> </td>
                     </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Nabilah Sahda Firjatullah</td>
-                      <td>05/05/2022</td>
-                      <td>Lunas</td>
-                      <td>Link Drive</td>
-                      <td>Rp. 100.000</td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Dika Maulana Putra Pratama</td>
-                      <td>05/05/2022</td>
-                      <td>Lunas</td>
-                      <td>Link Drive</td>
-                      <td>Rp. 100.000</td>
-                    </tr>
+                    <?php $nomor++; } ?>
                   </tbody>
                 </table>
               </div>
