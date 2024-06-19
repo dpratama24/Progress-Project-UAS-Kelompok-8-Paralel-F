@@ -1,8 +1,21 @@
 <?php 
-     include_once ("database.php");
-     $query= "SELECT * FROM tb_pembayaran";
-     $hasil= mysqli_query ($db, $query);
-     $rp = "Rp. ";
+    include_once ("database.php");
+    $query= "SELECT * FROM tb_pembayaran";
+    $hasil= mysqli_query ($db, $query);
+    $rp = "Rp. ";
+
+    $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : null;
+    $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : null;
+    $refresh = isset($_POST['refresh']);
+
+    $query = "SELECT * FROM tb_pembayaran";
+
+    if ($start_date && $end_date && !$refresh) {
+        $query .= " WHERE tanggal_pembayaran BETWEEN '$start_date' AND '$end_date'";
+    }
+
+    $query .= " ORDER BY id_warga DESC";
+    $hasil = mysqli_query($db, $query);
 
 ?>
 
@@ -120,7 +133,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
@@ -129,9 +142,12 @@
                 </button>
               </div>
             </div>
-          </form>
+          </form> -->
 
           <!-- Topbar Navbar -->
+          <div class="container mt-3">
+          <span class="h3 font-weight-bold text-uppercase text-dark">Iuran Terpadu RW 10 Taman Pondok Jati</span>
+          </div>
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -140,7 +156,7 @@
                 <i class="fas fa-search fa-fw"></i>
               </a>
               <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+              <!-- <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -152,17 +168,17 @@
                   </div>
                 </form>
               </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
+                <i class="fas fa-bell fa-fw"></i> -->
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">3+</span>
+              </a> -->
               <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+              <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
@@ -201,12 +217,12 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
+                <i class="fas fa-envelope fa-fw"></i> -->
                 <!-- Counter - Messages -->
                 <span class="badge badge-danger badge-counter">7</span>
               </a>
@@ -297,56 +313,85 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tabel Pembayaran</h1>
-          <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pembayaran warga RW 10 Taman Pondok Jati :</a></p>
+        <!-- Page Heading -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h1 class="h3 text-gray-800">Tabel Pembayaran</h1>
+            <button id="download-pdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Laporan
+            </button>
+        </div>
 
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
+        <!-- Form Filter -->
+        <form method="POST" action="">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label for="start_date" class="form-label">Tanggal Mulai</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="<?= isset($_POST['start_date']) ? $_POST['start_date'] : '' ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="end_date" class="form-label">Tanggal Akhir</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="<?= isset($_POST['end_date']) ? $_POST['end_date'] : '' ?>">
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                  <div class="mt-2">
+                    <button type="submit" class="btn btn-primary me-2"><i class="fas fa-filter me-1"></i>Filter</button>
+                    <button type="submit" name="refresh" value="Refresh" class="btn btn-outline-primary" id="refreshButton"><i class="fas fa-sync-alt me-1"></i>Refresh</button>
+                  </div>
+                </div>
+            </div>
+        </form>
+
+        <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pembayaran warga RW 10 Taman Pondok Jati:</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Iuran Warga yang Masuk</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Iuran Warga yang Masuk</h6>
             </div>
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama</th>
+                                <th>Tanggal Pembayaran</th>
+                                <th>Status Pembayaran</th>
+                                <th>Bukti Pembayaran</th>
+                                <th>Jumlah Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama</th>
+                                <th>Tanggal Pembayaran</th>
+                                <th>Status Pembayaran</th>
+                                <th>Bukti Pembayaran</th>
+                                <th>Jumlah Pembayaran</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                <?php
+                $no = 1; // Inisialisasi nomor urut
+                while ($data = mysqli_fetch_array($hasil)) :
+                ?>
                     <tr>
-                      <th>No.</th>
-                      <th>Nama</th>
-                      <th>Tanggal Pembayaran</th>
-                      <th>Status Pembayaran</th>
-                      <th>Bukti Pembayaran</th>
-                      <th>Jumlah Pembayaran</th>
+                        <td><?= $no++ ?></td>
+                        <td><?= $data['nama_warga'] ?></td>
+                        <td><?= $data['tanggal_pembayaran'] ?></td>
+                        <td><?= $data['status_pembayaran'] ?></td>
+                        <td style="text-align: center;">
+                            <img src="<?= $data['bukti_pembayaran'] ?>" width="250" height="150" style="display: block; margin: 0 auto;">
+                        </td>
+                        <td><?= 'Rp ' . number_format($data['jumlah_pembayaran'], 0, ',', '.') ?></td>
                     </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>No.</th>
-                      <th>Nama</th>
-                      <th>Tanggal Pembayaran</th>
-                      <th>Status Pembayaran</th>
-                      <th>Bukti Pembayaran</th>
-                      <th>Jumlah Pembayaran</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                  <?php $nomor=1; 
-                  while ($data=mysqli_fetch_array ($hasil)){ 
-                    ?>
-                    <tr>
-                    <th scope="row"> <?php echo $data['id_warga']; ?></th>
-                    <td> <?php echo $data['nama_warga']; ?> </td>
-                    <td> <?php echo $data['tanggal_pembayaran']; ?> </td>
-                    <td> <?php echo $data['status_pembayaran']; ?> </td>
-                    <td> <?php echo $data['bukti_pembayaran']; ?> </td>
-                    <td> <?php echo $rp .$data['jumlah_pembayaran']; ?> </td>
-                    </tr>
-                    <?php $nomor++; } ?>
-                  </tbody>
-                </table>
-              </div>
+                <?php endwhile; ?>
+            </tbody>
+              </table>
+                </div>
             </div>
-          </div>
+        </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -411,6 +456,21 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+
+  <script>
+        document.getElementById('download-pdf').addEventListener('click', function() {
+            const startDate = document.getElementById('start_date').value;
+            const endDate = document.getElementById('end_date').value;
+            const url = `pembayaran_pdf.php?start_date=${startDate}&end_date=${endDate}`;;
+            window.location.href = url;
+        });
+  </script>
+  <script>
+        document.getElementById('refreshButton').addEventListener('click', function() {
+            document.getElementById('start_date').value = '';
+            document.getElementById('end_date').value = '';
+        });
+  </script>
 
 </body>
 

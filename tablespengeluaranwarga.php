@@ -4,6 +4,19 @@
    $hasil= mysqli_query ($db, $query);
    $rp = "Rp. ";
 
+   $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : null;
+   $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : null;
+   $refresh = isset($_POST['refresh']);
+
+   $query = "SELECT * FROM tb_pengeluaran";
+
+   if ($start_date && $end_date && !$refresh) {
+       $query .= " WHERE tanggal_pengeluaran BETWEEN '$start_date' AND '$end_date'";
+   }
+
+   $query .= " ORDER BY id_pengeluaran DESC";
+   $hasil = mysqli_query($db, $query);
+
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +103,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
@@ -99,9 +112,12 @@
                 </button>
               </div>
             </div>
-          </form>
+          </form> -->
 
           <!-- Topbar Navbar -->
+          <div class="container mt-3">
+          <span class="h3 font-weight-bold text-uppercase text-dark">Iuran Terpadu RW 10 Taman Pondok Jati</span>
+          </div>
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -110,7 +126,7 @@
                 <i class="fas fa-search fa-fw"></i>
               </a>
               <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+              <!-- <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -121,18 +137,18 @@
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> -->
             </li>
 
             <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
+                <i class="fas fa-bell fa-fw"></i> -->
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">3+</span>
+              </a> -->
               <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+              <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
@@ -171,15 +187,15 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
+                <i class="fas fa-envelope fa-fw"></i> -->
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">7</span>
+              </a> -->
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
@@ -279,33 +295,50 @@
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
+                <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
                       <th>Tanggal Pengeluaran</th>
+                      <th>Keterangan Pengeluaran</th>
+                      <th>Jenis Pengeluaran</th>
+                      <th>Jumlah Pengeluaran</th>
+                      <!-- <th>Aksi</th> -->
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
                       <th>Tanggal Pengeluaran</th>
+                      <th>Keterangan Pengeluaran</th>
+                      <th>Jenis Pengeluaran</th>
+                      <th>Jumlah Pengeluaran</th>
+                      <!-- <th>Aksi</th> -->
                     </tr>
                   </tfoot>
                   <tbody>
                   <?php $nomor=1; 
-                  while ($data=mysqli_fetch_array ($hasil)){ 
+                  while ($data=mysqli_fetch_array ($hasil)): 
                     ?>
                     <tr>
-                    <th scope="row"> <?php echo $data['id_pengeluaran']; ?></th>
-                    <td> <?php echo $rp .$data['jumlah_pengeluaran']; ?> </td>
-                    <td> <?php echo $rp .$data['saldo']; ?> </td>
+                    <td><?= $nomor++ ?></td>
                     <td> <?php echo $data['tanggal_pengeluaran']; ?> </td>
+                    <td> <?php echo $data['keterangan_pengeluaran']; ?> </td>
+                    <td> <?php echo $data['jenis_pengeluaran']; ?> </td>
+                    <td> <?php echo $rp .$data['jumlah_pengeluaran']; ?> </td>
+                    <!-- <td>
+                    <a href="deletepengeluaran.php?id=<?php echo $data['id_pengeluaran']?>" class="btn btn-info delete fas fa-trash-alt" name="delete">Delete</a>
+
+                    <button class="btn btn-outline-secondary fas fa-edit" 
+                            data-id="<?php echo $data['id_pengeluaran']; ?>" 
+                            data-tanggal="<?php echo $data['tanggal_pengeluaran']; ?>" 
+                            data-keterangan="<?php echo $data['keterangan_pengeluaran']; ?>" 
+                            data-jenis="<?php echo $data['jenis_pengeluaran']; ?>" 
+                            data-jumlah="<?php echo $data['jumlah_pengeluaran']; ?>" 
+                            data-toggle="modal" 
+                            data-target="#editModal">Edit</button>
+                    </td> -->
                     </tr>
-                    <?php $nomor++; } ?>
+                    <?php endwhile;  ?>
                   </tbody>
                 </table>
               </div>

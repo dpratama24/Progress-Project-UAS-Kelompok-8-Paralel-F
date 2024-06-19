@@ -4,6 +4,20 @@
    $hasil= mysqli_query ($db, $query);
    $rp = "Rp. ";
 
+   $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : null;
+   $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : null;
+   $refresh = isset($_POST['refresh']);
+
+   $query = "SELECT * FROM tb_pengeluaran";
+
+   if ($start_date && $end_date && !$refresh) {
+       $query .= " WHERE tanggal_pengeluaran BETWEEN '$start_date' AND '$end_date'";
+   }
+
+   $query .= " ORDER BY id_pengeluaran DESC";
+   $hasil = mysqli_query($db, $query);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -120,7 +134,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
@@ -129,9 +143,12 @@
                 </button>
               </div>
             </div>
-          </form>
+          </form> -->
 
           <!-- Topbar Navbar -->
+          <div class="container mt-3">
+          <span class="h3 font-weight-bold text-uppercase text-dark">Iuran Terpadu RW 10 Taman Pondok Jati</span>
+          </div>
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -140,7 +157,7 @@
                 <i class="fas fa-search fa-fw"></i>
               </a>
               <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+              <!-- <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -151,18 +168,18 @@
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> -->
             </li>
 
             <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
+                <i class="fas fa-bell fa-fw"></i> -->
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">3+</span>
+              </a> -->
               <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+              <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
@@ -201,15 +218,15 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Messages -->
             <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
+              <!-- <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i> -->
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">7</span>
+              </a> -->
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
@@ -297,12 +314,37 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tables Pengeluaran</h1>
-          <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pengeluaran warga RW 10 Taman Pondok Jati :</a></p>
+        <!-- Page Heading -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h1 class="h3 text-gray-800">Tabel Pembayaran</h1>
+            <button id="download-pdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Download Laporan
+            </button>
+        </div>
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
+        <!-- Form Filter -->
+        <form method="POST" action="">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label for="start_date" class="form-label">Tanggal Mulai</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="<?= isset($_POST['start_date']) ? $_POST['start_date'] : '' ?>">
+                </div>
+                <div class="col-md-4">
+                    <label for="end_date" class="form-label">Tanggal Akhir</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="<?= isset($_POST['end_date']) ? $_POST['end_date'] : '' ?>">
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                  <div class="mt-2">
+                    <button type="submit" class="btn btn-primary me-2"><i class="fas fa-filter me-1"></i>Filter</button>
+                    <button type="submit" name="refresh" value="Refresh" class="btn btn-outline-primary" id="refreshButton"><i class="fas fa-sync-alt me-1"></i>Refresh</button>
+                  </div>
+                </div>
+            </div>
+        </form>
+
+        <p class="mb-4">Berikut dibawah ini merupakan tabel yang berisi data pembayaran warga RW 10 Taman Pondok Jati:</p>
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Tabel Pengeluaran</h6>
             </div>
@@ -312,30 +354,47 @@
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
                       <th>Tanggal Pengeluaran</th>
+                      <th>Keterangan Pengeluaran</th>
+                      <th>Jenis Pengeluaran</th>
+                      <th>Jumlah Pengeluaran</th>
+                      <th>Aksi</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>No.</th>
-                      <th>Jumlah Pengeluaran</th>
-                      <th>Saldo</th>
                       <th>Tanggal Pengeluaran</th>
+                      <th>Keterangan Pengeluaran</th>
+                      <th>Jenis Pengeluaran</th>
+                      <th>Jumlah Pengeluaran</th>
+                      <th>Aksi</th>
                     </tr>
                   </tfoot>
                   <tbody>
                   <?php $nomor=1; 
-                  while ($data=mysqli_fetch_array ($hasil)){ 
+                  while ($data=mysqli_fetch_array ($hasil)): 
                     ?>
                     <tr>
-                    <th scope="row"> <?php echo $data['id_pengeluaran']; ?></th>
-                    <td> <?php echo $rp .$data['jumlah_pengeluaran']; ?> </td>
-                    <td> <?php echo $rp .$data['saldo']; ?> </td>
+                    <td><?= $nomor++ ?></td>
                     <td> <?php echo $data['tanggal_pengeluaran']; ?> </td>
+                    <td> <?php echo $data['keterangan_pengeluaran']; ?> </td>
+                    <td> <?php echo $data['jenis_pengeluaran']; ?> </td>
+                    <td> <?php echo $rp .$data['jumlah_pengeluaran']; ?> </td>
+                    <td>
+                    <a href="deletepengeluaran.php?id=<?php echo $data['id_pengeluaran']?>" class="btn btn-info delete fas fa-trash-alt" name="delete">Delete</a>
+
+                    <button class="btn btn-outline-secondary fas fa-edit" 
+                            data-id="<?php echo $data['id_pengeluaran']; ?>" 
+                            data-tanggal="<?php echo $data['tanggal_pengeluaran']; ?>" 
+                            data-keterangan="<?php echo $data['keterangan_pengeluaran']; ?>" 
+                            data-jenis="<?php echo $data['jenis_pengeluaran']; ?>" 
+                            data-jumlah="<?php echo $data['jumlah_pengeluaran']; ?>" 
+                            data-toggle="modal" 
+                            data-target="#editModal">Edit</button>
+                    </td>
                     </tr>
-                    <?php $nomor++; } ?>
+                    <?php endwhile;  ?>
                   </tbody>
                 </table>
               </div>
@@ -348,6 +407,41 @@
       </div>
       <!-- End of Main Content -->
       
+      <!-- Modal -->
+      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="editModalLabel">Edit Pengeluaran</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <form id="editForm" action="prosesubahpengeluaran.php" method="post">
+                          <input type="hidden" id="edit-id" name="id_pengeluaran">
+                          <div class="form-group">
+                              <label for="edit-tanggal">Tanggal Pengeluaran</label>
+                              <input type="date" class="form-control" id="edit-tanggal" name="tanggal_pengeluaran">
+                          </div>
+                          <div class="form-group">
+                              <label for="edit-keterangan">Keterangan Pengeluaran</label>
+                              <input type="text" class="form-control" id="edit-keterangan" name="keterangan_pengeluaran">
+                          </div>
+                          <div class="form-group">
+                              <label for="edit-jenis">Jenis Pengeluaran</label>
+                              <input type="text" class="form-control" id="edit-jenis" name="jenis_pengeluaran">
+                          </div>
+                          <div class="form-group">
+                              <label for="edit-jumlah">Jumlah Pengeluaran</label>
+                              <input type="number" class="form-control" id="edit-jumlah" name="jumlah_pengeluaran">
+                          </div>
+                          <button type="submit" class="btn btn-primary">Save changes</button>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -405,6 +499,41 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+
+  <script>
+        document.getElementById('download-pdf').addEventListener('click', function() {
+            const startDate = document.getElementById('start_date').value;
+            const endDate = document.getElementById('end_date').value;
+            const url = `pengeluaran_pdf.php?start_date=${startDate}&end_date=${endDate}`;;
+            window.location.href = url;
+        });
+  </script>
+  <script>
+        document.getElementById('refreshButton').addEventListener('click', function() {
+            document.getElementById('start_date').value = '';
+            document.getElementById('end_date').value = '';
+        });
+  </script>
+
+  <!-- Modal script -->
+  <script>
+      $(document).ready(function() {
+          $('.edit-button').on('click', function() {
+              var id = $(this).data('id');
+              var tanggal = $(this).data('tanggal');
+              var keterangan = $(this).data('keterangan');
+              var jenis = $(this).data('jenis');
+              var jumlah = $(this).data('jumlah');
+
+              $('#edit-id').val(id);
+              $('#edit-tanggal').val(tanggal);
+              $('#edit-keterangan').val(keterangan);
+              $('#edit-jenis').val(jenis);
+              $('#edit-jumlah').val(jumlah);
+          });
+      });
+    </script>
+
 
 </body>
 

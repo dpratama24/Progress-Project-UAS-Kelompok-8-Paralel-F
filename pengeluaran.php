@@ -29,6 +29,17 @@
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+  <script>
+    // Fungsi untuk menambahkan titik sebagai pemisah ribuan
+    function formatRibuan(input) {
+        // Mengambil nilai input
+        var num = input.value.replace(/\./g,'');
+        
+        // Format dengan menambahkan titik setiap 3 digit
+        input.value = num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+</script>
+
 </head>
 
 <body id="page-top">
@@ -120,7 +131,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
@@ -129,9 +140,12 @@
                 </button>
               </div>
             </div>
-          </form>
+          </form> -->
 
           <!-- Topbar Navbar -->
+           <div class="container mt-3">
+          <span class="h3 font-weight-bold text-uppercase text-dark">Iuran Terpadu RW 10 Taman Pondok Jati</span>
+          </div>
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -140,7 +154,7 @@
                 <i class="fas fa-search fa-fw"></i>
               </a>
               <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+              <!-- <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -151,18 +165,18 @@
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> -->
             </li>
 
             <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
+                <i class="fas fa-bell fa-fw"></i> -->
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">3+</span>
+              </a> -->
               <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+              <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
@@ -201,15 +215,15 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
+                <i class="fas fa-envelope fa-fw"></i> -->
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">7</span>
+              </a> -->
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
@@ -306,26 +320,39 @@
 
           <!-- Form (Start) -->
           <form method="post" action="prosespengeluaran.php">
-          <div class="form-group pt-3">
-            <label for="exampleInputEmail1">Jumlah Pengeluaran :</label>
-            <input type="nama" name= "jumlah_pengeluaran" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>
-          <div class="form-group pt-2">
-            <label for="exampleInputEmail1">Saldo :</label>
-            <input type="nama" name= "saldo" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>
-          <div class="form-group pt-4">
-            <label for="exampleInputEmail1">Tanggal Pengeluaran :</label>
-            <input type="date" name="tanggal_pengeluaran"/>
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>  
-          <div class="text-center pb-5 mt-5">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <a href="tablespembayaranadmin1.php"></a>
-          </div>
-</form>
+              <div class="form-group pt-2">
+                  <label for="exampleInputEmail1">Keterangan Pengeluaran :</label>
+                  <!-- Menghapus Rp. dari placeholder -->
+                  <input type="text" name="keterangan_pengeluaran" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              </div>
+              <div class="form-group">
+                  <label for="exampleFormControlSelect1">Jenis Pengeluaran :</label>
+                  <select class="form-control" name="jenis_pengeluaran" id="exampleFormControlSelect1">
+                      <option></option>
+                      <!-- Menghapus Rp. dari nilai option -->
+                      <option value="Sosial">Sosial</option>
+                      <option value="Keamanan">Keamanan</option>
+                      <option value="Kebersihan">Kebersihan</option>
+                      <option value="Lainnya">Lainnya</option>
+                  </select>
+                  <small id="emailHelp" class="form-text text-muted">Pilih status pembayaran : Sosial, Keamanan,Kebersihan, Lainnya.</small>
+              </div>
+              <div class="form-group pt-3">
+                  <label for="exampleInputEmail1">Jumlah Pengeluaran :</label>
+                  <input type="text" name="jumlah_pengeluaran" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                      onkeydown="return numbersonly(this, event);" 
+                      onkeyup="formatRibuan(this);" required>
+                  <!-- Tambahkan formatRibuan() untuk memformat angka ribuan -->
+              </div>
+              <div class="form-group pt-4">
+                  <label for="exampleInputEmail1">Tanggal Pengeluaran :</label>
+                  <input type="date" name="tanggal_pengeluaran"/>
+              </div>  
+              <div class="text-center pb-5 mt-5">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <a href="tablespembayaranadmin1.php"></a>
+              </div>
+          </form>
 
       </div>
       <!-- End of Main Content -->

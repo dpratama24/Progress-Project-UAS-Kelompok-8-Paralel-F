@@ -4,49 +4,39 @@
    
        $login_message = "";
    
-       if (isset($_SESSION["login"])){
-           $username = $_SESSION["username"];
-           if ($username == "dikapratama397@gmail.com"){
-            header("location: dashboardadmin1.php");
-           } else if ($username == "dpratama397@gmail.com"){
-            header("location: dashboardadmin2.php");
-           }else if ($username == "karindawartanti@gmail.com"){
-            header("location: dashboardwarga.php");
-           }
-           
-       }
-       
        if(isset($_POST['login'])){
-           $username = $_POST['username'];
-           $password = $_POST['password'];
-           
-           $sql = "SELECT * FROM users WHERE 
-           username='$username' AND 
-           password='$password'
-           ";
-   
-           $result = $db->query($sql);
-   
-           if($result->num_rows > 0){
-               $data = $result->fetch_assoc();
-               $_SESSION["username"] = $data["username"];
-               if($username === "dikapratama397@gmail.com"){
-                header("location: dashboardadmin1.php");
-               }else if($username === "dpratama397@gmail.com"){
-                header("location: dashboardadmin2.php");
-               }else if($username === "karindawartanti@gmail.com"){
-                header("location: dashboardwarga.php");
-               }
-            //    $_SESSION["login"] = true;
-   
-           }else{
-              $login_message = "Akun Tidak Ditemukan";
+
+        $id = $_POST['id'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $passwordconfirm = $_POST['password_confirm'];
+        $role = $_POST['role'];
+     
+        $query = " SELECT * FROM users WHERE username = '$username' && password = '$password' ";
+     
+        $result = mysqli_query($db, $query);
+     
+        if(mysqli_num_rows($result) > 0){
+     
+           $row = mysqli_fetch_array($result);
+     
+           if($row['role'] == 'admin1'){
+              header('location:dashboardadmin1.php');
+     
+           }elseif($row['role'] == 'admin2'){
+              header('location:dashboardadmin2.php');
+     
+           }elseif($row['role'] == 'warga'){
+            header('location:dashboardwarga.php');
            }
-       }
-
-    
-
+          
+        }else{
+           $error[] = 'incorrect email or password!';
+        }
+     
+     };
 ?>
+     
 
 <!DOCTYPE html>
 <html lang="en">
