@@ -1,3 +1,36 @@
+<?php
+  $db = mysqli_connect("localhost", "root", "", "login");
+
+  $lunas_query = "SELECT COUNT(*) as count FROM tb_pembayaran WHERE status_pembayaran = 'Lunas'";
+  $lunas_result = mysqli_query($db, $lunas_query);
+  $lunas_count = mysqli_fetch_assoc($lunas_result)['count'];
+
+  $belum_lunas_query = "SELECT COUNT(*) as count FROM tb_pembayaran WHERE status_pembayaran = 'Belum Lunas'";
+  $belum_lunas_result = mysqli_query($db, $belum_lunas_query);
+  $belum_lunas_count = mysqli_fetch_assoc($belum_lunas_result)['count'];
+
+  // Test 6(Start)
+  $tanggal_pembayaran_query = "SELECT DATE_FORMAT(tanggal_pembayaran, '%M %Y') as bulan, SUM(jumlah_pembayaran) as total_pembayaran 
+                             FROM tb_pembayaran GROUP BY DATE_FORMAT(tanggal_pembayaran, '%M %Y')
+                             ORDER BY DATE_FORMAT(tanggal_pembayaran, '%Y-%m')";
+  $tanggal_pembayaran_result = mysqli_query($db, $tanggal_pembayaran_query);
+
+  // Prepare data arrays
+  $bulan_pembayaran = [];
+  $total_pembayaran = [];
+
+  while ($row = mysqli_fetch_assoc($tanggal_pembayaran_result)) {
+      $bulan_pembayaran[] = $row['bulan'];
+      $total_pembayaran[] = $row['total_pembayaran'];
+  }
+
+  // Convert PHP arrays to JavaScript arrays
+  $bulan_pembayaran_js = json_encode($bulan_pembayaran);
+  $total_pembayaran_js = json_encode($total_pembayaran);
+  // Test 6(End)
+  
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,7 +111,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
@@ -87,9 +120,12 @@
                 </button>
               </div>
             </div>
-          </form>
+          </form> -->
 
           <!-- Topbar Navbar -->
+          <div class="container mt-3">
+          <span class="h3 font-weight-bold text-uppercase text-dark">Iuran Terpadu RW 10 Taman Pondok Jati</span>
+          </div>
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -98,7 +134,7 @@
                 <i class="fas fa-search fa-fw"></i>
               </a>
               <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+              <!-- <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -109,18 +145,18 @@
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> -->
             </li>
 
             <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
+                <i class="fas fa-bell fa-fw"></i> -->
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">3+</span>
+              </a> -->
               <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+              <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
@@ -159,15 +195,15 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Messages -->
             <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
+              <!-- <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i> -->
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">7</span>
+              </a> -->
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
@@ -271,7 +307,22 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Dana Masuk</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 5.000.000</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <?php 
+                      // Query untuk menghitung total pembayaran
+                      $jumlah_pembayaran_query = "SELECT SUM(jumlah_pembayaran) as total_pembayaran FROM tb_pembayaran";
+                      $jumlah_pembayaran_result = mysqli_query($db, $jumlah_pembayaran_query);
+
+                      // Cek apakah query berhasil
+                      if ($jumlah_pembayaran_result) {
+                          $row = mysqli_fetch_assoc($jumlah_pembayaran_result);
+                          $total_pembayaran = $row['total_pembayaran'];
+                          echo "Rp " . number_format($total_pembayaran, 2, ',', '.');
+                      } else {
+                          echo "Error: " . mysqli_error($db);
+                      }
+                      ?>
+                      </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -307,7 +358,26 @@
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Dana Keluar</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp. 2.000.000</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                          <?php
+                          // Query untuk menghitung total pengeluaran
+                          $jumlah_pengeluaran_query = "SELECT SUM(jumlah_pengeluaran) as total_pengeluaran FROM tb_pengeluaran";
+                          $jumlah_pengeluaran_result = mysqli_query($db, $jumlah_pengeluaran_query);
+
+                          // Cek apakah query berhasil
+                          if ($jumlah_pengeluaran_result) {
+                              $row = mysqli_fetch_assoc($jumlah_pengeluaran_result);
+                              if ($row) {
+                                  $total_pengeluaran = $row['total_pengeluaran'];
+                                  echo "Rp " . number_format($total_pengeluaran, 2, ',', '.');
+                              } else {
+                                  echo "Tidak ada data pengeluaran.";
+                              }
+                          } else {
+                              echo "Error: " . mysqli_error($db);
+                          }
+                          ?>
+                          </div>
                         </div>
                         <div class="col">
                           <div class="progress progress-sm mr-2">
@@ -330,8 +400,52 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Saldo (/bulan)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 10.000.000</div>
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                      <?php
+                      // Array nama bulan dalam bahasa Indonesia
+                      $bulanIndo = array(
+                          1 => 'Januari',
+                          'Februari',
+                          'Maret',
+                          'April',
+                          'Mei',
+                          'Juni',
+                          'Juli',
+                          'Agustus',
+                          'September',
+                          'Oktober',
+                          'November',
+                          'Desember'
+                      );
+
+                      // Mendapatkan bulan dan tahun saat ini
+                      $current_month = date('n'); // 'n' untuk angka bulan tanpa leading zero
+                      $current_year = date('Y');
+
+                      echo "Saldo Bulan " . $bulanIndo[$current_month];
+                      ?>
+                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <?php
+                      // Query untuk menghitung total dana masuk per bulan
+                      $current_month = date('m');
+                      $current_year = date('Y');
+                      $jumlah_dana_masuk_query = "SELECT SUM(jumlah_pembayaran) as total_pembayaran FROM tb_pembayaran WHERE MONTH(tanggal_pembayaran) = '$current_month' AND YEAR(tanggal_pembayaran) = '$current_year'";
+                      $jumlah_dana_masuk_result = mysqli_query($db, $jumlah_dana_masuk_query);
+
+                      // Cek apakah query berhasil
+                      if ($jumlah_dana_masuk_result) {
+                          $row = mysqli_fetch_assoc($jumlah_dana_masuk_result);
+                          if ($row) {
+                              $total_pembayaran = $row['total_pembayaran'];
+                              // Format ke Rupiah dengan dua desimal, pemisah ribuan titik (.) dan pemisah desimal koma (,)
+                              echo "Rp " . number_format($total_pembayaran, 2, ',', '.');
+                          } else {
+                              echo "Tidak ada data pembayaran.";
+                          }
+                        }
+                        ?>
+                      </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -368,7 +482,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                    <canvas id="myLineChart"></canvas>
                   </div>
                 </div>
               </div>
@@ -592,6 +706,101 @@
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+              const lunasCount = <?php echo $lunas_count; ?>;
+              const belumLunasCount = <?php echo $belum_lunas_count; ?>;
+  const data = {
+                  labels: ['Lunas', 'Belum Lunas'],
+                  datasets: [{
+                      label: '',
+                      data: [lunasCount, belumLunasCount],
+                      backgroundColor: [
+                          '#06FF00',
+                          '#FF1E1E'
+                      ],
+                      hoverOffset: 4
+                  }]
+              };
+  const config = {
+                  type: 'doughnut',
+                  data: data,
+                  options: {
+                      responsive: true,
+                      maintainAspectRatio: false
+                  }
+              };
+              const myChart = new Chart(
+                  document.getElementById('myPieChart'),
+                  config
+              );
+          });
+  </script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+            const bulanPembayaran = <?php echo $bulan_pembayaran_js; ?>;
+            const totalPembayaran = <?php echo $total_pembayaran_js; ?>;
+
+            // Format Rupiah values
+            const formatRupiah = (value) => {
+                return 'Rp ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            };
+
+            const data = {
+                labels: bulanPembayaran,
+                datasets: [{
+                    label: 'Jumlah Pembayaran',
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    data: totalPembayaran,
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            ticks: {
+                                // Format the y-axis ticks
+                                callback: function(value) {
+                                    return formatRupiah(value);
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += formatRupiah(context.raw);
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var myChart = new Chart(
+                document.getElementById('myLineChart'),
+                config
+            );
+        });
+        
+</script>
+
 
 </body>
 

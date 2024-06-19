@@ -104,7 +104,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
@@ -113,9 +113,12 @@
                 </button>
               </div>
             </div>
-          </form>
+          </form> -->
 
           <!-- Topbar Navbar -->
+          <div class="container mt-3">
+          <span class="h3 font-weight-bold text-uppercase text-dark">Iuran Terpadu RW 10 Taman Pondok Jati</span>
+          </div>
           <ul class="navbar-nav ml-auto">
 
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -124,7 +127,7 @@
                 <i class="fas fa-search fa-fw"></i>
               </a>
               <!-- Dropdown - Messages -->
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+              <!-- <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -135,18 +138,18 @@
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> -->
             </li>
 
             <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
+                <i class="fas fa-bell fa-fw"></i> -->
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">3+</span>
+              </a> -->
               <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+              <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
@@ -185,15 +188,15 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
+                <i class="fas fa-envelope fa-fw"></i> -->
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">7</span>
+              </a> -->
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
@@ -289,40 +292,38 @@
           <p class="mb-4">Masukkan data pembayaran iuran warga RW 10 Taman Pondok Jati :</a></p>
 
           <!-- Form (Start) -->
-          <form method="post" action="prosespembayaran.php">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Nama :</label>
-            <input type="nama" name= "nama_warga" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>
-          <div class="form-group">
-          <label for="exampleFormControlSelect1">Status Pembayaran :</label>
-          <select class="form-control" name="status_pembayaran" id="exampleFormControlSelect1">
+          <form method="POST" action="./proses_pembayaran.php" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Nama :</label>
+        <input type="text" name="nama_warga" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Status Pembayaran :</label>
+        <select class="form-control" name="status_pembayaran" id="exampleFormControlSelect1">
             <option></option>
-            <option>Lunas</option>
-            <option>Belum Lunas</option>
-          </select>
-            <small id="emailHelp" class="form-text text-muted">Pilih status pembayaran : Lunas/Belum Lunas.</small>
-          </div>
-          <form method="post" action="prosespembayaran.php">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Jumlah Pembayaran :</label>
-            <input type="jumlahpembayaran" name="jumlah_pembayaran" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Tanggal Pembayaran :</label>
-            <input type="date" name="tanggal_pembayaran"/>
-            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlFile1">Bukti Pembayaran :</label>
-            <input type="file" name="bukti_pembayaran" class="form-control-file" id="exampleFormControlFile1">    
-            <div class="text-center pb-2">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <a href="tablespembayaranadmin1.php"></a>
-          </div>
+            <option value="Lunas">Lunas</option>
+            <option value="Belum Lunas">Belum Lunas</option>
+        </select>
+        <small id="emailHelp" class="form-text text-muted">Pilih status pembayaran : Lunas/Belum Lunas.</small>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Jumlah Pembayaran :</label>
+        <input type="number" name="jumlah_pembayaran" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Tanggal Pembayaran :</label>
+        <input type="date" name="tanggal_pembayaran" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Bukti Pembayaran :</label>
+        <input type="file" name="bukti_pembayaran" class="form-control-file" id="exampleFormControlFile1" accept="image/*">
+    </div>
+    <div class="text-center pb-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>
+
+
 
       </div>
       <!-- End of Main Content -->
